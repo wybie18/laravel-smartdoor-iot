@@ -32,6 +32,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/cards/{card}', [CardController::class, 'update'])->name('cards.update');
     Route::delete('/cards/{card}', [CardController::class, 'destroy'])->name('cards.destroy');
 
+    Route::get('/cards/{card}/doors', [CardController::class, 'getCardDoors'])->name('cards.doors');
+
     Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
 });
 
