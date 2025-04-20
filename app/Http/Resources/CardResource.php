@@ -20,6 +20,15 @@ class CardResource extends JsonResource
                 'id'   => $this->user->id,
                 'name' => $this->user->name,
             ],
+            'doors' => $this->whenLoaded('doors', function() {
+                return $this->doors->map(function($door) {
+                    return [
+                        'id' => $door->id,
+                        'name' => $door->name,
+                        'description' => $door->description,
+                    ];
+                });
+            }),
             'rfid_uid'    => $this->rfid_uid,
             'name'        => $this->name,
             'description' => $this->description,

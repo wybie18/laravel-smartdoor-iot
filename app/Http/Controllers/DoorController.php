@@ -17,7 +17,7 @@ class DoorController extends Controller
                 ->orWhere('description', 'like', '%' . $search . '%');
         }
 
-        $sortField     = request("sort_field", "start");
+        $sortField     = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
 
         $doors = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);

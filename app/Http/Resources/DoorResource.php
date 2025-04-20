@@ -18,8 +18,9 @@ class DoorResource extends JsonResource
             'id'          => $this->id,
             'name'        => $this->name,
             'description' => $this->description,
-            'created_at'  => (new Carbon($this->created_at))->format('M d, Y'),
-            'updated_at'  => (new Carbon($this->updated_at))->format('M d, Y'),
+            'key'         => $this->key,
+            'created_at'  => (new Carbon($this->created_at))->format('M d, Y g:i A'),
+            'updated_at'  => (new Carbon($this->updated_at))->format('M d, Y g:i A'),
         ];
     }
 }
