@@ -1,22 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { 
-  FiMenu, 
-  FiX, 
-  FiHome, 
-  FiLogOut, 
-  FiUser,
-  FiCreditCard,
-  FiList,
-  FiBell
+import {
+    FiMenu,
+    FiX,
+    FiHome,
+    FiLogOut,
+    FiUser,
+    FiCreditCard,
+    FiList,
+    FiBell
 } from 'react-icons/fi';
 
 import { FaDoorOpen } from "react-icons/fa";
 
+import { Toaster } from 'react-hot-toast';
+
 export default function SidebarLayout({ header, children }) {
     const { auth } = usePage().props;
     const user = auth.user;
-    
+
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -34,7 +36,7 @@ export default function SidebarLayout({ header, children }) {
 
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
-        
+
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
@@ -44,10 +46,9 @@ export default function SidebarLayout({ header, children }) {
 
     return (
         <div className="flex h-screen bg-gray-50">
-            <div 
-                className={`${
-                    sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                } fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 text-gray-800 transition-transform duration-300 ease-in-out md:relative md:translate-x-0`}
+            <div
+                className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                    } fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 text-gray-800 transition-transform duration-300 ease-in-out md:relative md:translate-x-0`}
             >
                 <div className="flex h-16 items-center justify-between border-b border-gray-200 px-6">
                     <Link href="/" className="flex items-center text-blue-600">
@@ -76,39 +77,35 @@ export default function SidebarLayout({ header, children }) {
                     <nav>
                         <Link
                             href={route('dashboard')}
-                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${
-                                route().current('dashboard') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
-                            }`}
+                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${route().current('dashboard') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
+                                }`}
                         >
                             <FiHome className="mr-3 h-5 w-5" />
                             <span>Dashboard</span>
                         </Link>
-                        
+
                         <Link
                             href={route('doors.index')}
-                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${
-                                route().current('doors.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
-                            }`}
+                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${route().current('doors.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
+                                }`}
                         >
                             <FaDoorOpen className="mr-3 h-5 w-5" />
                             <span>Doors</span>
                         </Link>
-                        
+
                         <Link
                             href={route('cards.index')}
-                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${
-                                route().current('cards.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
-                            }`}
+                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${route().current('cards.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
+                                }`}
                         >
                             <FiCreditCard className="mr-3 h-5 w-5" />
                             <span>Cards</span>
                         </Link>
-                        
+
                         <Link
                             href={route('logs.index')}
-                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${
-                                route().current('logs.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
-                            }`}
+                            className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${route().current('logs.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
+                                }`}
                         >
                             <FiList className="mr-3 h-5 w-5" />
                             <span>Logs</span>
@@ -125,7 +122,7 @@ export default function SidebarLayout({ header, children }) {
                             <FiUser className="mr-3 h-5 w-5" />
                             <span>Profile</span>
                         </Link>
-                        
+
                         <Link
                             href={route('logout')}
                             method="post"
@@ -155,6 +152,30 @@ export default function SidebarLayout({ header, children }) {
                         </div>
                     </div>
                 </header>
+
+                <Toaster
+                    position="top-right"
+                    toastOptions={{
+                        className: "",
+                        style: {
+                            borderRadius: "8px",
+                            background: "#fff",
+                            color: "#333",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                            padding: "16px",
+                        },
+                        success: {
+                            style: {
+                                borderLeft: "4px solid #10b981",
+                            },
+                        },
+                        error: {
+                            style: {
+                                borderLeft: "4px solid #ef4444",
+                            },
+                        },
+                    }}
+                />
 
                 <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50">
                     <div className="mx-auto max-w-7xl">

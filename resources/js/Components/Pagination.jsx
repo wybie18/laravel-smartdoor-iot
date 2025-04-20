@@ -35,8 +35,8 @@ export default function Pagination({ pagination, queryParams }) {
                         href={link.url ? mergeUrlWithQuery(link.url, queryParams) : "#"}
                         className={`px-3 py-1 text-sm font-normal border rounded transition duration-200 ease ${
                             link.active 
-                                ? 'text-white bg-green-600 border-green-600 hover:bg-green-700'
-                                : 'text-green-600 bg-white border-green-200 hover:bg-green-50'
+                                ? 'text-white bg-blue-600 border-blue-600 hover:bg-blue-700'
+                                : 'text-blue-600 bg-white border-blue-200 hover:bg-blue-50'
                         } ${
                             !link.url ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
                         }`}
