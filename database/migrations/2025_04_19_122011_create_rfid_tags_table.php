@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('rfid_tags', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('rfid_uid')->unique();
             $table->string('name');
             $table->string("description")->nullable();

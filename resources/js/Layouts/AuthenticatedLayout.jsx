@@ -85,9 +85,9 @@ export default function SidebarLayout({ header, children }) {
                         </Link>
                         
                         <Link
-                            href=""
+                            href={route('doors.index')}
                             className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${
-                                route().current('dashboard') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
+                                route().current('doors.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
                             }`}
                         >
                             <FaDoorOpen className="mr-3 h-5 w-5" />
@@ -95,9 +95,9 @@ export default function SidebarLayout({ header, children }) {
                         </Link>
                         
                         <Link
-                            href=""
+                            href={route('cards.index')}
                             className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${
-                                route().current('dashboard') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
+                                route().current('cards.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
                             }`}
                         >
                             <FiCreditCard className="mr-3 h-5 w-5" />
@@ -105,9 +105,9 @@ export default function SidebarLayout({ header, children }) {
                         </Link>
                         
                         <Link
-                            href=""
+                            href={route('logs.index')}
                             className={`flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 ${
-                                route().current('dashboard') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
+                                route().current('logs.*') ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600' : ''
                             }`}
                         >
                             <FiList className="mr-3 h-5 w-5" />

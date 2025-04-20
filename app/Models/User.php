@@ -44,4 +44,14 @@ class User extends Authenticatable
             'password'          => 'hashed',
         ];
     }
+
+    public function rfidTags()
+    {
+        return $this->hasMany(RfidTag::class);
+    }
+
+    public function accessLogs()
+    {
+        return $this->hasManyThrough(AccessLog::class, RfidTag::class);
+    }
 }

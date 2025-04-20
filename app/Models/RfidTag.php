@@ -8,6 +8,7 @@ class RfidTag extends Model
     protected $fillable = [
         'user_id',
         'rfid_uid',
+        'name',
         'description',
         'active',
     ];
@@ -19,6 +20,11 @@ class RfidTag extends Model
     public function doors()
     {
         return $this->belongsToMany(Door::class, 'access_permissions');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function accessLogs()

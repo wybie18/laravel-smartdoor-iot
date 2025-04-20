@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RfidTag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CardController extends Controller
@@ -28,4 +29,42 @@ class CardController extends Controller
             'queryParams' => request()->query() ?: null,
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'rfid_uid'    => 'required|string|unique:rfid_tags,rfid_uid',
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'active'      => 'boolean',
+        ]);
+
+        RfidTag::create([
+             ...$validated,
+            'user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('cards.index')->with('success', 'RFID Card created successfully');
+    }
+
+    public function update(Request $request, RfidTag $card)
+    {
+        $validated = $request->validate([
+            'rfid_uid'    => 'required|string|unique:rfid_tags,rfid_uid,' . $card->id,
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'active'      => 'boolean',
+        ]);
+
+        $card->update($validated);
+
+        return redirect()->route('cards.index')->with('success', 'RFID Card updated successfully');
+    }
+
+    public function destroy(RfidTag $card)
+    {
+        $card->delete();
+        return redirect()->route('cards.index')->with('success', 'RFID Card deleted successfully');
+    }
+
 }
