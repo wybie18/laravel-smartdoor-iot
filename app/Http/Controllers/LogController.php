@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LogResource;
 use App\Models\AccessLog;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,7 +32,7 @@ class LogController extends Controller
 
         $logs = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
         return Inertia::render('Log/Index', [
-            'logs'        => $logs,
+            'logs'        => LogResource::collection($logs),
             'queryParams' => request()->query() ?: null,
         ]);
     }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CardResource;
 use App\Models\RfidTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class CardController extends Controller
 
         $cards = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
         return Inertia::render('Card/Index', [
-            'cards'       => $cards,
+            'cards'       => CardResource::collection($cards),
             'queryParams' => request()->query() ?: null,
         ]);
     }

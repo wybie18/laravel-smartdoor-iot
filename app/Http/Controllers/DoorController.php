@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DoorResource;
 use App\Models\Door;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,7 +22,7 @@ class DoorController extends Controller
 
         $doors = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
         return Inertia::render('Door/Index', [
-            'doors'       => $doors,
+            'doors'       => DoorResource::collection($doors),
             'queryParams' => request()->query() ?: null,
         ]);
     }
