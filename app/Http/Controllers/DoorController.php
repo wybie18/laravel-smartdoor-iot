@@ -2,7 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\DoorResource;
+use App\Models\AccessLog;
 use App\Models\Door;
+use App\Models\RfidTag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -58,4 +60,52 @@ class DoorController extends Controller
         $door->delete();
         return redirect()->route('doors.index')->with('success', 'Door deleted successfully');
     }
+
+    public function handleAccessAttempt(Request $request)
+    {
+        $validated = $request->validate([
+            'api_key' => 'required|string',
+            'rfid_uid' => 'required|string',
+        ]);
+
+        $door = Door::where('key', $validated['api_key'])->firstOrFail();
+        $rfidTag = RfidTag::where('rfid_uid', $validated['rfid_uid'])->first();
+
+        $accessGranted = $rfidTag && $rfidTag->doors()->where('id', $door->id)->exists();
+
+        AccessLog::create([
+            'rfid_tag_id' => $rfidTag?->id,
+            'door_id' => $door->id,
+            'success' => $accessGranted,
+            'notes' => 'RFID access attempt',
+        ]);
+
+        return response()->json(['success' => $accessGranted]);
+    }
+
+    public function manualUnlock(Door $door)
+    {
+        $door->update(['last_unlock_at' => now()]);
+
+        AccessLog::create([
+            'door_id' => $door->id,
+            'success' => true,
+            'notes' => 'Manual unlock from web interface',
+        ]);
+
+        return back()->with('status', 'Door unlocked!');
+    }
+
+    public function checkUnlockCommand(Door $door)
+    {
+        $shouldUnlock = $door->last_unlock_at && $door->last_unlock_at->diffInSeconds() < 5;
+        
+        if ($shouldUnlock) {
+            $door->update(['last_unlock_at' => null]);
+            return response()->json(['unlock' => true]);
+        }
+        
+        return response()->json(['unlock' => false]);
+    }
+
 }

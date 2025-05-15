@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->text('key')->unique();
+            $table->timestamp('last_unlock_at');
             $table->timestamps();
         });
     }

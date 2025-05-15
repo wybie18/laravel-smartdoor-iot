@@ -8,11 +8,16 @@ class Door extends Model
     protected $fillable = [
         'name',
         'description',
+        'last_unlock_at',
         'key',
     ];
 
+    protected $casts = [
+        'last_unlock_at' => 'datetime',
+    ];
+
     protected $hidden = [
-        'key'
+        'key',
     ];
 
     public function rfidTags()
