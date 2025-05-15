@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DoorController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\ProfileController;
@@ -18,9 +19,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/doors', [DoorController::class, 'index'])->name('doors.index');
     Route::post('/doors', [DoorController::class, 'store'])->name('doors.store');

@@ -1,14 +1,23 @@
-import { useState } from 'react';
-import Pagination from '@/Components/Pagination';
-import TableHeading from '@/Components/TableHeading';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router, useForm } from '@inertiajs/react';
-import { FaDoorClosed, FaDoorOpen } from 'react-icons/fa';
-import { FiEdit, FiPlus, FiSearch, FiTrash2, FiX, FiCheck, FiAlertTriangle } from 'react-icons/fi';
-import toast from 'react-hot-toast';
-import CreateForm from './Modal/CreateForm';
-import EditForm from './Modal/EditForm';
-import DeleteForm from './Modal/DeleteForm';
+import { useState } from "react";
+import Pagination from "@/Components/Pagination";
+import TableHeading from "@/Components/TableHeading";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, router, useForm } from "@inertiajs/react";
+import { FaDoorClosed, FaDoorOpen } from "react-icons/fa";
+import {
+    FiEdit,
+    FiPlus,
+    FiSearch,
+    FiTrash2,
+    FiX,
+    FiCheck,
+    FiAlertTriangle,
+    FiUnlock,
+} from "react-icons/fi";
+import toast from "react-hot-toast";
+import CreateForm from "./Modal/CreateForm";
+import EditForm from "./Modal/EditForm";
+import DeleteForm from "./Modal/DeleteForm";
 
 export default function Index({ doors, queryParams, flash }) {
     queryParams = queryParams || {};
@@ -19,7 +28,7 @@ export default function Index({ doors, queryParams, flash }) {
 
     const openCreateModal = () => {
         setCreateModalOpen(true);
-    }
+    };
 
     const closeCreateModal = () => {
         setCreateModalOpen(false);
@@ -85,6 +94,10 @@ export default function Index({ doors, queryParams, flash }) {
         router.get(route("doors.index"), queryParams);
     };
 
+    const handleUnlockDoor = (door) => {
+        alert("unlocked " + door.name);
+    };
+
     return (
         <AuthenticatedLayout
             header={
@@ -128,9 +141,14 @@ export default function Index({ doors, queryParams, flash }) {
                                         type="text"
                                         className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                                         placeholder="Search by door name..."
-                                        defaultValue={queryParams.search || ''}
-                                        onBlur={e => searchFieldChanged('search', e.target.value)}
-                                        onKeyUp={e => onKeyPress('search', e)}
+                                        defaultValue={queryParams.search || ""}
+                                        onBlur={(e) =>
+                                            searchFieldChanged(
+                                                "search",
+                                                e.target.value
+                                            )
+                                        }
+                                        onKeyUp={(e) => onKeyPress("search", e)}
                                     />
                                 </div>
                             </div>
@@ -142,8 +160,12 @@ export default function Index({ doors, queryParams, flash }) {
                                                 <TableHeading
                                                     fieldName="id"
                                                     sortable={true}
-                                                    sortField={queryParams.sort_field}
-                                                    sortDirection={queryParams.sort_direction}
+                                                    sortField={
+                                                        queryParams.sort_field
+                                                    }
+                                                    sortDirection={
+                                                        queryParams.sort_direction
+                                                    }
                                                     onSortChange={onSortChange}
                                                 >
                                                     ID
@@ -151,8 +173,12 @@ export default function Index({ doors, queryParams, flash }) {
                                                 <TableHeading
                                                     fieldName="name"
                                                     sortable={true}
-                                                    sortField={queryParams.sort_field}
-                                                    sortDirection={queryParams.sort_direction}
+                                                    sortField={
+                                                        queryParams.sort_field
+                                                    }
+                                                    sortDirection={
+                                                        queryParams.sort_direction
+                                                    }
                                                     onSortChange={onSortChange}
                                                 >
                                                     Name
@@ -163,8 +189,12 @@ export default function Index({ doors, queryParams, flash }) {
                                                 <TableHeading
                                                     fieldName="created_at"
                                                     sortable={true}
-                                                    sortField={queryParams.sort_field}
-                                                    sortDirection={queryParams.sort_direction}
+                                                    sortField={
+                                                        queryParams.sort_field
+                                                    }
+                                                    sortDirection={
+                                                        queryParams.sort_direction
+                                                    }
                                                     onSortChange={onSortChange}
                                                 >
                                                     Created At
@@ -172,19 +202,28 @@ export default function Index({ doors, queryParams, flash }) {
                                                 <TableHeading
                                                     fieldName="updated_at"
                                                     sortable={true}
-                                                    sortField={queryParams.sort_field}
-                                                    sortDirection={queryParams.sort_direction}
+                                                    sortField={
+                                                        queryParams.sort_field
+                                                    }
+                                                    sortDirection={
+                                                        queryParams.sort_direction
+                                                    }
                                                     onSortChange={onSortChange}
                                                 >
                                                     Updated At
                                                 </TableHeading>
-                                                <TableHeading className="text-right">Actions</TableHeading>
+                                                <TableHeading className="text-right">
+                                                    Actions
+                                                </TableHeading>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 bg-white">
                                             {doors.data.length > 0 ? (
                                                 doors.data.map((door) => (
-                                                    <tr key={door.id} className="hover:bg-blue-50 transition-colors">
+                                                    <tr
+                                                        key={door.id}
+                                                        className="hover:bg-blue-50 transition-colors"
+                                                    >
                                                         <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-500 font-medium">
                                                             #{door.id}
                                                         </td>
@@ -195,7 +234,12 @@ export default function Index({ doors, queryParams, flash }) {
                                                             </div>
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-gray-700">
-                                                            {door.description || <span className="text-gray-400 italic">No description</span>}
+                                                            {door.description || (
+                                                                <span className="text-gray-400 italic">
+                                                                    No
+                                                                    description
+                                                                </span>
+                                                            )}
                                                         </td>
                                                         <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-600">
                                                             {door.created_at}
@@ -206,7 +250,23 @@ export default function Index({ doors, queryParams, flash }) {
                                                         <td className="whitespace-nowrap px-4 py-3 text-right text-sm font-medium">
                                                             <div className="flex justify-end space-x-2">
                                                                 <button
-                                                                    onClick={() => openEditModal(door)}
+                                                                    onClick={() =>
+                                                                        handleUnlockDoor(
+                                                                            door
+                                                                        )
+                                                                    }
+                                                                    type="button"
+                                                                    className="inline-flex items-center rounded-md bg-green-50 p-2 text-green-600 hover:bg-green-100 transition-colors"
+                                                                    title="Unlock door"
+                                                                >
+                                                                    <FiUnlock className="h-4 w-4" />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() =>
+                                                                        openEditModal(
+                                                                            door
+                                                                        )
+                                                                    }
                                                                     type="button"
                                                                     className="inline-flex items-center rounded-md bg-blue-50 p-2 text-blue-600 hover:bg-blue-100 transition-colors"
                                                                     title="Edit door"
@@ -214,7 +274,11 @@ export default function Index({ doors, queryParams, flash }) {
                                                                     <FiEdit className="h-4 w-4" />
                                                                 </button>
                                                                 <button
-                                                                    onClick={() => openDeleteModal(door)}
+                                                                    onClick={() =>
+                                                                        openDeleteModal(
+                                                                            door
+                                                                        )
+                                                                    }
                                                                     type="button"
                                                                     className="inline-flex items-center rounded-md bg-red-50 p-2 text-red-600 hover:bg-red-100 transition-colors"
                                                                     title="Delete door"
@@ -227,12 +291,20 @@ export default function Index({ doors, queryParams, flash }) {
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="6" className="px-6 py-8 text-center text-sm text-gray-500">
+                                                    <td
+                                                        colSpan="6"
+                                                        className="px-6 py-8 text-center text-sm text-gray-500"
+                                                    >
                                                         <div className="flex flex-col items-center justify-center">
                                                             <FaDoorClosed className="h-12 w-12 text-gray-300 mb-3" />
-                                                            <p className="font-medium text-gray-600">No doors found</p>
+                                                            <p className="font-medium text-gray-600">
+                                                                No doors found
+                                                            </p>
                                                             <p className="text-gray-500 mt-1">
-                                                                Try adjusting your search filters or add a new door
+                                                                Try adjusting
+                                                                your search
+                                                                filters or add a
+                                                                new door
                                                             </p>
                                                         </div>
                                                     </td>
@@ -243,16 +315,30 @@ export default function Index({ doors, queryParams, flash }) {
                                 </div>
 
                                 <div className="border-t border-gray-200 px-4 py-3">
-                                    <Pagination pagination={doors.meta} queryParams={queryParams} />
+                                    <Pagination
+                                        pagination={doors.meta}
+                                        queryParams={queryParams}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <CreateForm openModal={createModalOpen} closeModal={closeCreateModal} />
-            <EditForm openModal={editModalOpen} closeModal={closeEditModal} door={selectedDoor} />
-            <DeleteForm openModal={deleteModalOpen} closeModal={closeDeleteModal} door={selectedDoor} />
+            <CreateForm
+                openModal={createModalOpen}
+                closeModal={closeCreateModal}
+            />
+            <EditForm
+                openModal={editModalOpen}
+                closeModal={closeEditModal}
+                door={selectedDoor}
+            />
+            <DeleteForm
+                openModal={deleteModalOpen}
+                closeModal={closeDeleteModal}
+                door={selectedDoor}
+            />
         </AuthenticatedLayout>
     );
 }
