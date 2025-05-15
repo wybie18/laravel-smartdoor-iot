@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import CreateForm from "./Modal/CreateForm";
 import EditForm from "./Modal/EditForm";
 import DeleteForm from "./Modal/DeleteForm";
+import axios from "axios";
 
 export default function Index({ doors, queryParams, flash }) {
     queryParams = queryParams || {};
@@ -94,8 +95,27 @@ export default function Index({ doors, queryParams, flash }) {
         router.get(route("doors.index"), queryParams);
     };
 
-    const handleUnlockDoor = (door) => {
-        alert("unlocked " + door.name);
+    const handleUnlockDoor = async (door) => {
+        try {
+            const response = await axios.post(
+                route("door.unlock", { door: door.id }),
+                {},
+                {
+                    headers: {
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
+                    },
+                }
+            );
+
+            if (response.data.success) {
+                toast.success("Door unlocked");
+            }
+        } catch (error) {
+            toast.error("Failed to unlock door");
+            console.error("Unlock error:", error);
+        }
     };
 
     return (

@@ -93,7 +93,7 @@ class DoorController extends Controller
             'notes' => 'Manual unlock from web interface',
         ]);
 
-        return back()->with('status', 'Door unlocked!');
+        return response()->json(['success' => true]);
     }
 
     public function checkUnlockCommand(Door $door)

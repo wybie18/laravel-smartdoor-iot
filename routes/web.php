@@ -26,6 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/doors/{door}', [DoorController::class, 'update'])->name('doors.update');
     Route::delete('/doors/{door}', [DoorController::class, 'destroy'])->name('doors.destroy');
 
+    Route::post('/door/{door}/unlock', [DoorController::class, 'manualUnlock'])->name('door.unlock');
+
     Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
     Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
     Route::put('/cards/{card}', [CardController::class, 'update'])->name('cards.update');

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('access_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("rfid_tag_id")->constrained("rfid_tags")->nullable();
+            $table->foreignId("rfid_tag_id")->nullable()->constrained("rfid_tags");
             $table->foreignId("door_id")->constrained("doors")->cascadeOnDelete();
             $table->timestamp("access_time")->useCurrent();
             $table->boolean("success");

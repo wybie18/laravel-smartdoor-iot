@@ -212,12 +212,12 @@ export default function Index({ logs, queryParams, flash }) {
                                                             #{log.id}
                                                         </td>
                                                         <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-700 font-mono">
-                                                            {log.rfid_tag.rfid_uid}
+                                                            {log.rfid_tag?.rfid_uid || "Manual"}
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-gray-700 font-medium">
                                                             <div className="flex items-center">
                                                                 <FaCreditCard className="mr-2 h-4 w-4 text-blue-500" />
-                                                                {log.rfid_tag.name}
+                                                                {log.rfid_tag?.name || "Manual"}
                                                             </div>
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-gray-700 font-medium">
