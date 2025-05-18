@@ -6,6 +6,7 @@ use App\Models\AccessLog;
 use App\Models\Door;
 use App\Models\RfidTag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DoorController extends Controller
@@ -73,6 +74,10 @@ class DoorController extends Controller
 
         $accessGranted = $rfidTag && $rfidTag->doors()->where('id', $door->id)->exists();
 
+        if($accessGranted){
+            $door->update(['last_unlock_at' => now()]);
+        }
+
         AccessLog::create([
             'rfid_tag_id' => $rfidTag?->id,
             'door_id' => $door->id,
@@ -96,16 +101,18 @@ class DoorController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function checkUnlockCommand(Door $door)
+    public function checkUnlockCommand(string $door)
     {
-        $shouldUnlock = $door->last_unlock_at && $door->last_unlock_at->diffInSeconds() < 5;
-        
+        $doorToUnlock = Door::where('key', $door)->first();
+        $shouldUnlock = $doorToUnlock->last_unlock_at && $doorToUnlock->last_unlock_at->diffInSeconds() < 5;
+        Log::info('Attempt to unlock door');
         if ($shouldUnlock) {
-            $door->update(['last_unlock_at' => null]);
+            Log::info('door unlock');
+            $doorToUnlock->update(['last_unlock_at' => null]);
             return response()->json(['unlock' => true]);
         }
         
-        return response()->json(['unlock' => false]);
+        return response()->json(['unlock' => false, 'last_unlock' => $doorToUnlock->last_unlock_at, 'now' => now()]);
     }
 
 }
