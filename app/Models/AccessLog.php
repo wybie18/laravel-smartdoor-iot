@@ -24,6 +24,6 @@ class AccessLog extends Model
     }
 
     public function rfidTag(){
-        return $this->belongsTo(RfidTag::class);
+        return $this->belongsTo(RfidTag::class, 'rfid_tag_id');
     }
 }
