@@ -29,6 +29,6 @@ class RfidTag extends Model
 
     public function accessLogs()
     {
-        return $this->hasMany(AccessLog::class);
+        return $this->hasMany(AccessLog::class, 'rfid_tag_id');
     }
 }
