@@ -10,12 +10,7 @@ class LogController extends Controller
 {
     public function index()
     {
-        $query = AccessLog::query()
-            ->with(['rfidTag', 'door'])
-            ->select('access_logs.*')
-            ->leftJoin('rfid_tags', 'access_logs.rfid_tag_id', '=', 'rfid_tags.id')
-            ->leftJoin('doors', 'access_logs.door_id', '=', 'doors.id');
-
+        $query = AccessLog::with(['door', 'rfidTag.user']);
         if ($search = request('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('rfid_tags.name', 'like', "%{$search}%")
