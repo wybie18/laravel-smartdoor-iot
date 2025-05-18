@@ -279,7 +279,7 @@ export default function Index({ logs, queryParams, flash }) {
                                                         </td>
                                                         <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-700 font-mono">
                                                             {log.rfid_tag
-                                                                ?.rfid_uid ||
+                                                                ?.rfid_uid ??
                                                                 "Manual"}
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-gray-700 font-medium">
@@ -287,7 +287,7 @@ export default function Index({ logs, queryParams, flash }) {
                                                                 <FaCreditCard className="mr-2 h-4 w-4 text-blue-500" />
                                                                 {log.rfid_tag
                                                                     ?.name ||
-                                                                    "Manual"}
+                                                                    "Unknown Card"}
                                                             </div>
                                                         </td>
                                                         <td className="px-4 py-3 text-sm text-gray-700 font-medium">
